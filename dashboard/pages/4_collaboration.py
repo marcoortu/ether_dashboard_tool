@@ -3,6 +3,7 @@ import os
 
 import pandas as pd
 import plotly.express as px
+import sqlalchemy
 from wordcloud import WordCloud
 import matplotlib.pyplot as plt
 import streamlit as st
@@ -12,7 +13,20 @@ from streamlit_agraph import agraph, Node, Edge, Config
 import ydata_profiling
 from streamlit_pandas_profiling import st_profile_report
 
-DIR_PATH = os.path.dirname(os.path.abspath(__file__))
+IMG_DIR_PATH = os.path.dirname(os.path.abspath(__file__))
+
+DIR_PATH = os.path.join(os.path.dirname(__file__), '..', 'db_util')
+
+# Create a connection to your SQLite database
+engine = sqlalchemy.create_engine(f'sqlite:///{DIR_PATH}/ethereum_tool.db')
+
+
+@st.cache_data
+def load_repositories():
+    # Assuming your repositories table is named 'repositories'
+    with engine.connect() as conn:
+        # Assuming your repositories table is named 'repositories'
+        return pd.read_sql("SELECT id, name FROM repositories ORDER BY name", conn)
 
 
 def get_image_as_base64(path):
@@ -133,9 +147,9 @@ if repo_name:
             commits = load_commits(committer_id)[:100]
             files = load_files(committer_id)
 
-            dev_img = get_image_as_base64(f"{DIR_PATH}/../imgs/dev.png")
-            dev_main_img = get_image_as_base64(f"{DIR_PATH}/../imgs/dev_main.png")
-            file_img = get_image_as_base64(f"{DIR_PATH}/../imgs/file.png")
+            dev_img = get_image_as_base64(f"{IMG_DIR_PATH}/../imgs/dev.png")
+            dev_main_img = get_image_as_base64(f"{IMG_DIR_PATH}/../imgs/dev_main.png")
+            file_img = get_image_as_base64(f"{IMG_DIR_PATH}/../imgs/file.png")
 
             tab1, tab2, tab3, tab4, tab5 = st.tabs(["Files", "Word Cloud", "Sentiment",
                                                     "Emotion", "Statistics"])

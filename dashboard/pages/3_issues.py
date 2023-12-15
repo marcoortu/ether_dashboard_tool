@@ -2,6 +2,7 @@ import base64
 import os
 
 import pandas as pd
+import sqlalchemy
 import streamlit as st
 import plotly.express as px
 import textwrap
@@ -11,9 +12,63 @@ import matplotlib.pyplot as plt
 from streamlit_agraph import agraph, Node, Edge, Config
 
 from dashboard.db_util.config import load_repositories, engine
-from dashboard.home import setup_page
 
-DIR_PATH = os.path.dirname(os.path.abspath(__file__))
+IMG_DIR_PATH = os.path.dirname(os.path.abspath(__file__))
+
+DIR_PATH = os.path.join(os.path.dirname(__file__), '..', 'db_util')
+
+# Create a connection to your SQLite database
+engine = sqlalchemy.create_engine(f'sqlite:///{DIR_PATH}/ethereum_tool.db')
+
+
+@st.cache_data
+def load_repositories():
+    # Assuming your repositories table is named 'repositories'
+    with engine.connect() as conn:
+        # Assuming your repositories table is named 'repositories'
+        return pd.read_sql("SELECT id, name FROM repositories ORDER BY name", conn)
+
+
+def setup_page():
+    # Hide the 'Made with Streamlit' footer by injecting custom CSS
+    hide_streamlit_style = """
+                <style>
+                #MainMenu {visibility: hidden;}
+                footer {visibility: hidden;}
+                </style>
+                """
+    st.markdown(hide_streamlit_style, unsafe_allow_html=True)
+    # CSS to hide the Streamlit "Deploy" button
+    hide_deploy_button = """
+                <style>
+                #MainMenu {visibility: hidden;}
+                .stDeployButton {visibility: hidden;}
+                </style>
+                """
+    st.markdown(hide_deploy_button, unsafe_allow_html=True)
+
+    # Styling for the tiles
+    tile_style = """
+    <style>
+    .tile {
+        padding: 10px;
+        font-size: 30px;
+        text-align: center;
+        color: white;
+        border-radius: 10px;
+    }
+    .tile-1 {
+        background-color: #0078D4;
+    }
+    .tile-2 {
+        background-color: #28A745;
+    }
+    .tile-3 {
+        background-color: #FFC107;
+    }
+    </style>
+    """
+    st.markdown(tile_style, unsafe_allow_html=True)
 
 
 def get_image_as_base64(path):
@@ -273,8 +328,8 @@ if repo_name:
                                       delta=0, delta_color="normal")
 
                 with tab5:
-                    dev_main_img = get_image_as_base64(f"{DIR_PATH}/../imgs/dev_main.png")
-                    dev_img = get_image_as_base64(f"{DIR_PATH}/../imgs/dev.png")
+                    dev_main_img = get_image_as_base64(f"{IMG_DIR_PATH}/../imgs/dev_main.png")
+                    dev_img = get_image_as_base64(f"{IMG_DIR_PATH}/../imgs/dev.png")
                     if not comments.empty:
                         nodes = []
                         edges = []
