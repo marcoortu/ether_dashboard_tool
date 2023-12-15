@@ -1,0 +1,15 @@
+sqlalchemy
+pandas
+streamlit
+streamlit-pandas-profiling
+streamlit-agraph
+jupyter
+plotly
+TensorFlow
+torch
+torchvision
+torchaudio
+transformers[torch]
+bert-tensorflow
+networkx
+openai==0.28
