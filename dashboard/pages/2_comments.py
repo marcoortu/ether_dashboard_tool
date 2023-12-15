@@ -7,7 +7,6 @@ import ydata_profiling
 import plotly.express as px
 import streamlit as st
 from streamlit_pandas_profiling import st_profile_report
-from dashboard.db_util.config import engine, load_repositories
 
 DIR_PATH = os.path.join(os.path.dirname(__file__), '..', 'db_util')
 

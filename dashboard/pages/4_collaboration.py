@@ -8,7 +8,6 @@ from wordcloud import WordCloud
 import matplotlib.pyplot as plt
 import streamlit as st
 
-from dashboard.db_util.config import load_repositories, engine
 from streamlit_agraph import agraph, Node, Edge, Config
 import ydata_profiling
 from streamlit_pandas_profiling import st_profile_report

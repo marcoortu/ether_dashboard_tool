@@ -11,7 +11,6 @@ import matplotlib.pyplot as plt
 
 from streamlit_agraph import agraph, Node, Edge, Config
 
-from dashboard.db_util.config import load_repositories, engine
 
 IMG_DIR_PATH = os.path.dirname(os.path.abspath(__file__))
 
