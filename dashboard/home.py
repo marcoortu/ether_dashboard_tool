@@ -2,7 +2,7 @@ import os
 
 import streamlit as st
 
-from dashboard.db_util.db_import import import_db, DB_PATH
+from db_util.db_import import import_db, DB_PATH
 
 st.set_page_config(page_title="Ether Dash Tools", page_icon="🔥", layout="wide")
 
