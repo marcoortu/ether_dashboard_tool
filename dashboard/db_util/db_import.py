@@ -5,7 +5,7 @@ from datetime import datetime
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 
-from dashboard.db_util.models import Comment, Commit, Event, FileCommit, File, Issue, Reaction, Base, Repository, User
+from .models import Comment, Commit, Event, FileCommit, File, Issue, Reaction, Base, Repository, User
 
 # from .models import Comment, Commit, Event, FileCommit, File, Issue, Reaction, Base, Repository, User
 
